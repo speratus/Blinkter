@@ -3,9 +3,10 @@ import blinkt
 
 ##import .board
 
-from copy import deepcopy
+#from copy import deepcopy
 
 from .led import LED
+from .threads import FlashThread
 
 class Pixel:
     def __init__(self, board, addr):
@@ -151,3 +152,14 @@ class Pixel:
         self.set_led(LED.RED, 0)
         self.set_led(LED.GREEN, 0)
         self.set_led(LED.BLUE, 255)
+        
+    def flash(self, r=0, g=0, b=0, length=0.25):
+        thread = FlashThread(self, length)
+        if r == 0 and g == 0 and b == 0:
+            self.black()
+            self._revert_color()
+            self.draw()
+            thread.start()
+        else:
+            self.set_color(r, g, b)
+            thread.start()
