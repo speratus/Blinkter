@@ -12,5 +12,5 @@ class FlashThread(threading.Thread):
         
     def run(self):
         time.sleep(self.length)
-        pixel._revert_color()
-        pixel.draw()
+        self.pixel._revert_color()
+        self.pixel.draw()
