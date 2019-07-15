@@ -23,6 +23,8 @@ class BlinktBoard(metaclass=Singleton):
     def get_pixel(self, idx):
         return self.pixels[idx]
         
-    def black_all():
+    def black_all(self):
+        self.lock.acquire()
         blinkt.clear()
         blinkt.show()
+        self.lock.release()

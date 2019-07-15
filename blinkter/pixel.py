@@ -77,8 +77,6 @@ class Pixel:
 
         self.board.lock.acquire(blocking=True, timeout=1)
         blinkt.set_pixel(self.addr, self.rgb[LED.RED.value], self.rgb[LED.GREEN.value], self.rgb[LED.BLUE.value], brightness=self.brightness)
-
-        
         blinkt.show()
         self.board.lock.release()
 ##        print('drew the pixel. If nothing shows, then there is an error somewhere.')
