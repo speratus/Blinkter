@@ -12,7 +12,7 @@ class FlashThread(threading.Thread):
         
     def run(self):
         time.sleep(self.length)
-        self.pixel._revert_color()
+        self.pixel.revert_color()
         self.pixel.draw()
 
 class BlinkThread(threading.Thread):
@@ -45,6 +45,7 @@ class BlinkThread(threading.Thread):
 ##            print(f'The listed elapsed time is {elapsed_time}')
 
             if elapsed_time > self.duration:
+                self.pixel.revert_color()
                 break
 
 class AdvancedBlinkThread(threading.Thread):

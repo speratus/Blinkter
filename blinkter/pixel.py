@@ -185,7 +185,7 @@ class Pixel:
         thread = FlashThread(self, length)
         if r == 0 and g == 0 and b == 0:
             self.black()
-            self._revert_color()
+            self.revert_color()
             self.draw()
             thread.start()
         else:
@@ -196,7 +196,7 @@ class Pixel:
         thread = BlinkThread(self, interval, duration)
         if r == 0 and g == 0 and b == 0:
             self.black()
-            self._revert_color()
+            self.revert_color()
             self.draw()
             thread.start()
         else:
