@@ -1,12 +1,13 @@
 import asyncio
 import blinkt
+import threading
 
 ##import .board
 
 #from copy import deepcopy
 
 from .led import LED
-from .threads import FlashThread
+from .threads import FlashThread, BlinkThread, AdvancedBlinkThread
 
 class Pixel:
     def __init__(self, board, addr):
@@ -20,6 +21,7 @@ class Pixel:
         self.rgb = [0, 0, 0]
         self.increment_amount = 10
         self.bi = 0.1
+        self.blinking_thread = None
 
 ##    async def blinkt_go(self):
 ##        blinkt.set_pixel(self.addr, self.rgb[LED.RED], self.rgb[LED.GREEN], self.rgb[LED.BLUE], brightness=self.brightness)
@@ -33,9 +35,23 @@ class Pixel:
         self.orgb[LED.BLUE.value] = self.rgb[LED.BLUE.value]
 
     def _revert_color(self):
+##        self._keep_color()
         self.rgb[LED.RED.value] = self.orgb[LED.RED.value]
         self.rgb[LED.GREEN.value] = self.orgb[LED.GREEN.value]
         self.rgb[LED.BLUE.value] = self.orgb[LED.BLUE.value]
+
+    def revert_color(self):
+        r = self.orgb[LED.RED.value]
+        g = self.orgb[LED.GREEN.value]
+        b = self.orgb[LED.BLUE.value]
+        
+        self._keep_color()
+        self.rgb[LED.RED.value] = r
+        self.rgb[LED.GREEN.value] = g
+        self.rgb[LED.BLUE.value] = b
+        
+        self.draw()
+        
 
     def black(self):
         self._keep_color()
@@ -57,8 +73,14 @@ class Pixel:
 ##        p = deepcopy(self)
 ##        board.thread.draw_pixel(p)
 ##        print('drew the pixel. If nothing shows, uncomment lines 45 and 55.')
+##        l = threading.Lock()
+
+        self.board.lock.acquire(blocking=True, timeout=1)
         blinkt.set_pixel(self.addr, self.rgb[LED.RED.value], self.rgb[LED.GREEN.value], self.rgb[LED.BLUE.value], brightness=self.brightness)
+
+        
         blinkt.show()
+        self.board.lock.release()
 ##        print('drew the pixel. If nothing shows, then there is an error somewhere.')
         
         
@@ -169,3 +191,30 @@ class Pixel:
         else:
             self.set_color(r, g, b)
             thread.start()
+
+    def blink(self, r=0, g=0, b=0, brightness=0.1, interval=0.05, duration=2.0):
+        thread = BlinkThread(self, interval, duration)
+        if r == 0 and g == 0 and b == 0:
+            self.black()
+            self._revert_color()
+            self.draw()
+            thread.start()
+        else:
+            self.set_color(r, g, b)
+            thread.start()
+
+    def start_blink(self, r=0, g=0, b=0, brightness=0.1, on_length=0.05, off_length=0.1):
+        thread = AdvancedBlinkThread(self, on_length, off_length)
+        if r == 0 and g == 0 and b == 0:
+            self.black()
+            self.revert_color()
+            self.blinking_thread = thread
+            thread.start()
+        else:
+            self.set_color(r, g, b)
+            self.blinking_thread = thread
+            thread.start()
+
+    def stop_blink(self):
+        self.blinking_thread.stop()
+        self.black()

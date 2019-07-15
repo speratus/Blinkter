@@ -1,4 +1,5 @@
 import blinkt
+import threading
 
 from .pixel import *
 
@@ -12,6 +13,7 @@ class Singleton(type):
 class BlinktBoard(metaclass=Singleton):
     def __init__(self):
         self.pixels = []
+        self.lock = threading.Lock()
         for i in range(8):
             self.pixels.append(Pixel(self, i))
 ##        self.thread = drawing.LEDDrawThread(self)
