@@ -10,6 +10,9 @@ Welcome to blinkter's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   classes/BlinktBoard
+   classes/Pixel
+
 
 
 Indices and tables
