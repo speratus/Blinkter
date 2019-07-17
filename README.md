@@ -39,4 +39,10 @@ source <ENVIRONMENT_NAME>/bin/activate
 Doing this will ensure that Blinkter is installed into the appropriate environment.
 
 # Usage
+```python
+import blinkter
 
+board = blinkter.BlinktBoard()
+pixel = board.get_pixel(0)  #Or whatever pixel you want to manipulate
+pixel.red() #Or pixel.blue(), or whatever else you want.
+```
