@@ -10,6 +10,23 @@ from .led import LED
 from .threads import FlashThread, BlinkThread, AdvancedBlinkThread
 
 class Pixel:
+    """
+    Represents a single pixel on the :class:`BlinktBoard`.
+    
+    This class is the main point of interaction between the user and the blinkt board. Any operation done on a single pixel
+    should be executed from an object of this class.
+    
+    Usage
+    ----------
+    Users should not attempt to instantiate this class directly. Instead use the :func:`BlinktBoard.get_pixel` to acquire an instance of 
+    this class.
+    
+    .. code-block:: python3
+        from blinkter import BlintkBoard
+        
+        board = BlinktBoard()
+        pixel = board.get_pixel(0)
+    """
     def __init__(self, board, addr):
         self.board = board
         self.addr = addr
@@ -41,6 +58,9 @@ class Pixel:
         self.rgb[LED.BLUE.value] = self.orgb[LED.BLUE.value]
 
     def revert_color(self):
+        """
+        Resets this pixel's color to the most recently used color.
+        """
         r = self.orgb[LED.RED.value]
         g = self.orgb[LED.GREEN.value]
         b = self.orgb[LED.BLUE.value]
@@ -54,6 +74,9 @@ class Pixel:
         
 
     def black(self):
+        """
+        Turns this pixel off completely.
+        """
         self._keep_color()
         
         self.rgb[LED.RED.value] = 0
@@ -63,6 +86,9 @@ class Pixel:
         self.draw()
 
     def white(self):
+        """
+        Sets all three primary LEDs in this pixel to maximum levels to make this pixel appear white.
+        """
         self._keep_color()
         
         self.rgb[LED.RED.value] = 255
@@ -70,6 +96,11 @@ class Pixel:
         self.rgb[LED.BLUE.value] = 255
 
     def draw(self):
+        """
+        Sends this pixel's internal state out to the GPIO, causing the pixel to light up.
+        
+        Under normal circumstances, users should not have to call this method.
+        """
 ##        p = deepcopy(self)
 ##        board.thread.draw_pixel(p)
 ##        print('drew the pixel. If nothing shows, uncomment lines 45 and 55.')
@@ -83,6 +114,17 @@ class Pixel:
         
         
     def increment(self, led: LED, amount=0):
+        """
+        Increments the selected LED's brightness by the specified amount.
+        
+        Parameters
+        ------------------
+        led: :class:`LED`
+            specifies which LED's brightness should be incremented.
+        
+        amount: Optional[int]
+            The amount to increase the brightness of the specified LED.
+        """
         self._keep_color()
         
         a = amount if amount is not 0 else self.increment_amount
@@ -101,6 +143,17 @@ class Pixel:
         self.draw()
 
     def decrement(self, led: LED, amount=0):
+        """
+        Decreases the brightness of the specified LED by the specified amount.
+        
+        Parameters
+        ------------------
+        led: :class:`LED`
+            specifies which LED should have its brightness decreased.
+            
+        amount: Optional[int]
+            The amount by which the specified LED should decreased.
+        """
         self._keep_color()
 
         a = amount if amount is not 0 else self.increment_amount
@@ -119,6 +172,18 @@ class Pixel:
         self.draw()
 
     def set_led(self, led: LED, value: int):
+        """
+        Sets the specified LED to the specified brightness.
+        
+        Parameters
+        ------------------
+        led: :class:`LED`
+            specifies which LED will have its brightness set.
+            
+        value: int
+            Specifies the level to which the brightness will be set.
+            Acceptable values are between 0 and 255.
+        """
         self._keep_color()
 
         if value > 255:
@@ -131,6 +196,22 @@ class Pixel:
         self.draw()
 
     def set_color(self, r: int, g: int, b: int):
+        """
+        Sets the color of this pixel to the values specified.
+        
+        The accebtable range for all of these parameters is between 0 and 255 inclusive.
+        
+        Paramters
+        ----------------
+        r: int
+            Specifies the brightness to which the red LED should be set.
+            
+        g: int
+            Specifies the brightness to which the green LED should be set.
+            
+        b: int
+            Specifies the brightness to which the blue LED should be set.
+        """
         self._keep_color()
 
         for i in range(3):
@@ -152,6 +233,20 @@ class Pixel:
         self.draw()
                 
     def increment_brightness(self, amount=0.0):
+        """
+        Increments the overall brightness of this pixel by the specified amount.
+        Similar to the :func:`increment` method, this method increases the brightness of the whole pixel by a specified scale
+        factor.
+        
+        Parameters
+        ------------------
+        amount: Optional[float]
+            The amount at which the brightness of this pixel will be increased.
+            
+            Acceptable values are between -1.0 and 1.0.
+            
+            If the brightness of the pixel drops below 0.05 the pixel will automatically turn off.
+        """
         a = amount if amount is not 0.0 else self.bi
         if self.bi+a > 1.0:
             self.bi = 1.0
@@ -163,23 +258,55 @@ class Pixel:
         self.draw()
         
     def red(self):
+        """
+        Changes the color of this pixel to red.
+        """
         self.set_led(LED.RED, 255)
         self.set_led(LED.GREEN, 0)
         self.set_led(LED.BLUE, 0)
         self.draw()
         
     def green(self):
+        """
+        Changes the color of this pixel to green.
+        """
         self.set_led(LED.RED, 0)
         self.set_led(LED.GREEN, 255)
         self.set_led(LED.BLUE, 0)
         self.draw()
         
     def blue(self):
+        """
+        Changes the color of this pixel to blue.
+        """
         self.set_led(LED.RED, 0)
         self.set_led(LED.GREEN, 0)
         self.set_led(LED.BLUE, 255)
         
     def flash(self, r=0, g=0, b=0, length=0.25):
+        """
+        Causes this pixel to flash once.
+        
+        If all of the color parameters (``r``, ``g``, and `b``) Are zero, then sets this pixel to black and flashes the color that the pixel had been prior to calling this method.
+        
+        The values of the color parameters must be between ``0`` and ``255``.
+        
+        Parameters
+        ------------------
+        r: Optional[int]
+            The brightness of the red LED to use in the flash.
+            
+        g: Optional[int]
+            The brightness of the red LED to use in the flash.
+            
+        b: Optional[int]
+            The brightness of the blue LED to use in the flash.
+            
+        length: Optional[float]
+            The length of time in seconds over which the flash takes place.
+            
+            If the length parameter is omitted, it defaults to ``0.25`` (a quarter of a second).
+        """
         thread = FlashThread(self, length)
         if r == 0 and g == 0 and b == 0:
             self.black()
@@ -191,6 +318,41 @@ class Pixel:
             thread.start()
 
     def blink(self, r=0, g=0, b=0, brightness=0.1, interval=0.05, duration=2.0):
+        """
+        Flashes this pixel repeatedly for the duration specified.
+        
+        This method does not allow users to specify the ratio for which the pixel should be on to the time which it should be
+        off. For this reason, using this method is not recommended. For more advanced blinking options, see :meth:`start_blinkt` and :meth:`stop_blink`.
+        
+        Like :meth:`flash`, if no color parameters are specified, this method will flash between black and the current color.
+        
+        Parameters
+        ------------------
+        r: Optional[int]
+            The brightness to which the red LED should be set for this blink sequence.
+            
+        g: Optional[int]
+            The brightness to which the green LED should be set for this blink sequence.
+            
+        b: Optional[int]
+            The brightness to which the blue LED should be set for this blink sequence.
+            
+        interval: Optional[float]
+            The time between switching between an "on" state and an "off" state.
+            
+            An "on" state is when the pixel's color equals that specified in this method's parameters.
+            
+            An "off" state is when the pixel's color is anything except the color specified in this method's parameters.
+            
+            NOTE: When the pixel is in an "off" state, it is not necessarily black. It is only not the specified color.
+            
+            The interval for both "on" and "off" states is equal. I.E., the time spent "on" will always equal the time spent "off".
+            
+            If this behavior is not ideal, see the methods :meth:`start_blink` and :meth:`stop_blink` for more advanced behavior.
+            
+        duration: Optional[float]
+            The length of time in seconds during which this blink sequence will run.
+        """
         thread = BlinkThread(self, interval, duration)
         if r == 0 and g == 0 and b == 0:
             self.black()
@@ -202,6 +364,33 @@ class Pixel:
             thread.start()
 
     def start_blink(self, r=0, g=0, b=0, brightness=0.1, on_length=0.05, off_length=0.1):
+        """
+        Starts a blink sequence. This sequence will not terminate until :meth:`stop_blink` is called.
+        
+        Unlike :meth:`blink`, this method allows the user to specify the time which the pixel will be on and off separately.
+        
+        Parameters
+        ------------------
+        r: Optional[int]
+            The brightness to which the red LED will be set during this blink sequence.
+            
+        g: Optional[int]
+            The brightness to which the green LED will be set during this blink sequence.
+            
+        b: Optional[int]
+            The brightness to which the blue LED will be set during this blink sequence.
+            
+        brightness: Optional[int]
+            The overall brightness of the whole pixel during this blink sequence.
+            
+            NOTE: this parameter is not supported. Including it as an argument will not change any of the pixel's behavior.
+            
+        on_length: Optional[float]
+            The length of time in seconds that the pixel will be on for each flash.
+            
+        off_length: Optional[float]
+            The length of time in seconds that the pixel will be off between flashes.
+        """
         thread = AdvancedBlinkThread(self, on_length, off_length)
         if r == 0 and g == 0 and b == 0:
             self.black()
@@ -214,5 +403,8 @@ class Pixel:
             thread.start()
 
     def stop_blink(self):
+        """
+        Stops the running blink sequence if it was started using :meth:`start_blink`.
+        """
         self.blinking_thread.stop()
         self.black()
