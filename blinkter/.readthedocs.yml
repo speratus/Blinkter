@@ -1,0 +1,14 @@
+version: 2
+formats: []
+
+
+build:
+  image: latest
+
+sphinx:
+  configuration: docs/conf.py
+  builder: html
+
+python:
+  version: 3.7
+  setup_py_install: true
