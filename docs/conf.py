@@ -27,7 +27,7 @@ author = 'Andrew Luchuk'
 release = '0.1.5.4'
 
 master_doc = 'index'
-autodoc_mock_imports = ['Rpi']
+autodoc_mock_imports = ['blinkt']
 
 # -- General configuration ---------------------------------------------------
 
