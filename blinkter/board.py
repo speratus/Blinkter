@@ -64,7 +64,7 @@ class BlinktBoard(metaclass=Singleton):
         
         Parameters
         ------------------
-        idx: int
+        :param idx: int
             The index of the pixel to get.
         """
         return self.pixels[idx]

@@ -141,10 +141,10 @@ class Pixel:
         
         Parameters
         ------------------
-        led: :class:`LED`
+        :param led: :class:`LED`
             specifies which LED's brightness should be incremented.
         
-        amount: Optional[int]
+        :param amount: Optional[int]
             The amount to increase the brightness of the specified LED.
         """
         self._keep_color()
@@ -170,10 +170,10 @@ class Pixel:
         
         Parameters
         ------------------
-        led: :class:`LED`
+        :param led: :class:`LED`
             specifies which LED should have its brightness decreased.
             
-        amount: Optional[int]
+        :param amount: Optional[int]
             The amount by which the specified LED should decreased.
         """
         self._keep_color()
@@ -199,10 +199,10 @@ class Pixel:
         
         Parameters
         ------------------
-        led: :class:`LED`
+        :param led: :class:`LED`
             specifies which LED will have its brightness set.
             
-        value: int
+        :param value: int
             Specifies the level to which the brightness will be set.
             Acceptable values are between 0 and 255.
         """
@@ -225,13 +225,13 @@ class Pixel:
         
         Paramters
         ----------------
-        r: int
+        :param r: int
             Specifies the brightness to which the red LED should be set.
             
-        g: int
+        :param g: int
             Specifies the brightness to which the green LED should be set.
             
-        b: int
+        :param b: int
             Specifies the brightness to which the blue LED should be set.
         """
         self._keep_color()
@@ -262,7 +262,7 @@ class Pixel:
         
         Parameters
         ------------------
-        amount: Optional[float]
+        :param amount: Optional[float]
             The amount at which the brightness of this pixel will be increased.
             
             Acceptable values are between -1.0 and 1.0.
@@ -315,16 +315,16 @@ class Pixel:
         
         Parameters
         ------------------
-        r: Optional[int]
+        :param r: Optional[int]
             The brightness of the red LED to use in the flash.
             
-        g: Optional[int]
+        :param g: Optional[int]
             The brightness of the red LED to use in the flash.
             
-        b: Optional[int]
+        :param b: Optional[int]
             The brightness of the blue LED to use in the flash.
             
-        length: Optional[float]
+        :param length: Optional[float]
             The length of time in seconds over which the flash takes place.
             
             If the length parameter is omitted, it defaults to ``0.25`` (a quarter of a second).
@@ -350,16 +350,16 @@ class Pixel:
         
         Parameters
         ------------------
-        r: Optional[int]
+        :param r: Optional[int]
             The brightness to which the red LED should be set for this blink sequence.
             
-        g: Optional[int]
+        :param g: Optional[int]
             The brightness to which the green LED should be set for this blink sequence.
             
-        b: Optional[int]
+        :param b: Optional[int]
             The brightness to which the blue LED should be set for this blink sequence.
             
-        interval: Optional[float]
+        :param interval: Optional[float]
             The time between switching between an "on" state and an "off" state.
             
             An "on" state is when the pixel's color equals that specified in this method's parameters.
@@ -372,7 +372,7 @@ class Pixel:
             
             If this behavior is not ideal, see the methods :meth:`start_blink` and :meth:`stop_blink` for more advanced behavior.
             
-        duration: Optional[float]
+        :param duration: Optional[float]
             The length of time in seconds during which this blink sequence will run.
         """
         thread = BlinkThread(self, interval, duration)
@@ -393,24 +393,24 @@ class Pixel:
         
         Parameters
         ------------------
-        r: Optional[int]
+        :param r: Optional[int]
             The brightness to which the red LED will be set during this blink sequence.
             
-        g: Optional[int]
+        :param g: Optional[int]
             The brightness to which the green LED will be set during this blink sequence.
             
-        b: Optional[int]
+        :param b: Optional[int]
             The brightness to which the blue LED will be set during this blink sequence.
             
-        brightness: Optional[int]
+        :param brightness: Optional[int]
             The overall brightness of the whole pixel during this blink sequence.
             
             NOTE: this parameter is not supported. Including it as an argument will not change any of the pixel's behavior.
             
-        on_length: Optional[float]
+        :param on_length: Optional[float]
             The length of time in seconds that the pixel will be on for each flash.
             
-        off_length: Optional[float]
+        :param off_length: Optional[float]
             The length of time in seconds that the pixel will be off between flashes.
         """
         thread = AdvancedBlinkThread(self, on_length, off_length)
