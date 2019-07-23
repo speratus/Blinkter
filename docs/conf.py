@@ -24,7 +24,7 @@ copyright = '2019, Andrew Luchuk'
 author = 'Andrew Luchuk'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.5.4'
+release = '0.1.5.5'
 
 master_doc = 'index'
 autodoc_mock_imports = ['blinkt']

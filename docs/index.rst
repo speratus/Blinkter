@@ -55,11 +55,11 @@ Blink a pixel repeatedly::
     time.sleep(3)
     pixel.stop_blink()
 
-
+Contents
+--------
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
 
    classes/BlinktBoard
    classes/Pixel
