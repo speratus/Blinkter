@@ -30,30 +30,30 @@ Here are some of the features that blinkter offers.
 
 Quick demonstration
 -------------------
-Cycle through the basic colors.
-.. code-block::python3
-   import time
-   from blinkter import BlinktBoard
+Cycle through the basic colors.::
 
-   board = BlinktBoard()
-   pixel = board.get_pixel(0) #As with blinkt, the pixels are labelled 0-7.
-   pixel.red()
-   time.sleep(1)
-   pixel.green()
-   time.sleep(1)
-   pixel.blue()
-   time.sleep(3)
-   pixel.black()  #Turn the pixel off when you're done.
+    import time
+    from blinkter import BlinktBoard
 
-Cause a pixel to flash once.
-.. code-block::python3
-   pixel.flash(r=255, duration=0.1)
+    board = BlinktBoard()
+    pixel = board.get_pixel(0) #As with blinkt, the pixels are labelled 0-7.
+    pixel.red()
+    time.sleep(1)
+    pixel.green()
+    time.sleep(1)
+    pixel.blue()
+    time.sleep(3)
+    pixel.black()  #Turn the pixel off when you're done.
 
-Blink a pixel repeatedly
-.. code-block::python3
-   pixel.start_blink(g=255, on_length=0.075, off_length=0.2)
-   time.sleep(3)
-   pixel.stop_blink()
+Cause a pixel to flash once.::
+
+    pixel.flash(r=255, duration=0.1)
+
+Blink a pixel repeatedly::
+
+    pixel.start_blink(g=255, on_length=0.075, off_length=0.2)
+    time.sleep(3)
+    pixel.stop_blink()
 
 
 
