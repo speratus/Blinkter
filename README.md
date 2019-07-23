@@ -1,8 +1,8 @@
 # README
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/blinkter.svg)
 [![Documentation Status](https://readthedocs.org/projects/blinkter/badge/?version=latest)](https://blinkter.readthedocs.io/en/latest/?badge=latest)
-![GitHub release](https://img.shields.io/github/release/speratus/Blinkter.svg)
-![PyPI](https://img.shields.io/pypi/v/blinkter.svg?color=green)
+[![GitHub release](https://img.shields.io/github/release/speratus/Blinkter.svg)](https://github.com/speratus/Blinkter/releases/tag/0.1.5.4)
+[![PyPI](https://img.shields.io/pypi/v/blinkter.svg?color=green)](https://pypi.org/project/blinkter/)
 [![GitHub license](https://img.shields.io/github/license/speratus/Blinkter.svg)](https://github.com/speratus/Blinkter/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/speratus/Blinkter.svg)](https://github.com/speratus/Blinkter/issues)
 [![GitHub forks](https://img.shields.io/github/forks/speratus/Blinkter.svg)](https://github.com/speratus/Blinkter/network)
