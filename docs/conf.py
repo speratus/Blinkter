@@ -29,6 +29,13 @@ release = '0.1.5.4'
 master_doc = 'index'
 autodoc_mock_imports = ['blinkt']
 
+rst_prolog = """
+.. |pimoroni| replace:: Pimoroni Blinkt!
+.. _pimoroni: https://shop.pimoroni.com/products/blinkt
+.. |blinkt| replace:: blinkt
+.. _blinkt: https://github.com/pimoroni/blinkt
+"""
+
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be

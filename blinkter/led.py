@@ -24,7 +24,13 @@ import enum
 
 class LED(enum.Enum):
     """
-    An enum representing the primary colors available on the blinkt board
+    An enum representing the primary colors available on the blinkt board.
+
+    The possible values are as follows:
+    .. codeblock:python3
+       RED = 0
+       GREEN = 1
+       BLUE = 2
     """
     RED = 0
     GREEN = 1
