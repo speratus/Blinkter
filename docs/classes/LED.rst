@@ -14,9 +14,7 @@ This enumeration is intended to be used in a very limited set of circumstances. 
 convenience class for certain operations inside the :class:`Pixel` class. Given the limited scope of its usefulness,
 it may be removed in the future.
 
-**Example:** ::
-
-.. code-block:: python3
+**Example:**::
 
    #Code for obtaining a Pixel class
    pixel.set_led(LED.GREEN, 100)
