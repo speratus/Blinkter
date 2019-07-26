@@ -39,15 +39,17 @@ That's all there is to it. You should be ready to go in no time at all.
 ## Installing into a virtual environment.
 Installing Blinkter into a virtual environment is not much harder than a regular installation of Blinkter.
 Follow steps 1 and 2 as you normally would, but before executing step 3, make sure that your virtual environment is activated.
-### Windows
-On windows this is achieved using the command:
-```
-<ENVIRONMENT_NAME>\Scripts\activate
-```
+
 ### Linux
-In linux, the command is,
+In linux (and Raspbian), the command is,
 ```
 source <ENVIRONMENT_NAME>/bin/activate
+```
+### Windows
+On windows this is achieved using the command:
+**NOTE:** *Blinkter will not run on Windows. It works exclusively on the Raspberry pi.*
+```
+<ENVIRONMENT_NAME>\Scripts\activate
 ```
 
 Doing this will ensure that Blinkter is installed into the appropriate environment.
