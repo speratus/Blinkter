@@ -309,7 +309,7 @@ class Pixel:
         """
         Causes this pixel to flash once.
         
-        If all of the color parameters (``r``, ``g``, and `b``) Are zero, then sets this pixel to black and flashes the color that the pixel had been prior to calling this method.
+        If all of the color parameters (``r``, ``g``, and ``b``) Are zero, then sets this pixel to black and flashes the color that the pixel had been prior to calling this method.
         
         The values of the color parameters must be between ``0`` and ``255``.
         
