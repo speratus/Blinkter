@@ -116,6 +116,8 @@ class Pixel:
         self.rgb[LED.RED.value] = 255
         self.rgb[LED.GREEN.value] = 255
         self.rgb[LED.BLUE.value] = 255
+        
+        self.draw()
 
     def draw(self):
         """
