@@ -27,7 +27,7 @@ with open('README.md', 'r') as fh:
 
 setup(
     name='blinkter',
-    version='0.1.5.5',
+    version='0.1.5.6',
     packages=find_packages(),
     install_requires=['blinkt >= 0.1.2'],
     author='Andrew Luchuk',
