@@ -20,31 +20,31 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
-from setuptools import setup, find_packages
+import unittest
+import threading
+from unittest import mock
 
-with open('README.md', 'r') as fh:
-    long_description = fh.read()
+import blinkt
 
-setup(
-    name='blinkter',
-    version='0.1.5.6',
-    packages=find_packages(),
-    install_requires=['blinkt >= 0.1.2'],
-    author='Andrew Luchuk',
-    project_urls={
-        'Documentation': 'http://blinkter.readthedocs.io/',
-        'Issue tracker': 'https://github.com/speratus/Blinkter/issues'
-    },
-    author_email='spaxumof@gmail.com',
-    description='A high level library for interacting with the Pimoroni Blinkt.',
-    long_description=long_description,
-    long_description_content_type='text/markdown',
-    url='https://github.com/speratus/Blinkter',
-    classifiers=[
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.7',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: POSIX :: Linux',
-    ]
-)
+from blinkter import BlinktBoard, Pixel, LED
+
+
+class BasicPixelTests(unittest.TestCase):
+    def SetUp(self):
+        self.board = BlinktBoard()
+        self.pixel = self.board.get_pixel(0)
+
+    @mock.patch.object(threading.Lock, 'acquire', autospec=True)
+    @mock.patch.object(threading.Lock, 'release', autospec=True)
+    @mock.patch('blinkt.set_pixel', autospec=True)
+    @mock.patch('blinkt.show', autospec=True)
+    def test_draw_works(self, mock_show, mock_set, mock_release, mock_acquire):
+        self.pixel.green()
+        mock_acquire.asser_called()
+        mock_set.assert_called_with(0, 0, 255, 0, 0.1)
+        mock_show.assert_called()
+        mock_release.assert_called()
+
+
+if __name__ == '__main__':
+    unittest.main()
