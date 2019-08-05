@@ -346,7 +346,7 @@ class Pixel:
         Flashes this pixel repeatedly for the duration specified.
         
         This method does not allow users to specify the ratio for which the pixel should be on to the time which it should be
-        off. For this reason, using this method is not recommended. For more advanced blinking options, see :meth:`start_blinkt` and :meth:`stop_blink`.
+        off. For this reason, using this method is not recommended. For more advanced blinking options, see :meth:`start_blink` and :meth:`stop_blink`.
         
         Like :meth:`flash`, if no color parameters are specified, this method will flash between black and the current color.
         
