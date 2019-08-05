@@ -44,8 +44,8 @@ class BlinktBoard(metaclass=Singleton):
     Represents the pimoroni Blinkt! GPIO board. This class is a singleton because in order to ensure threadsafety,
     it has to make sure that there are no other instances of it present in the current execution environment.
     
-    An instance of this class can be obtained in the following manner:
-    .. code-block:: python3
+    An instance of this class can be obtained in the following manner: ::
+
         from blinkter import BlinktBoard
         board = BlinktBoard()
     """
