@@ -27,7 +27,7 @@ author = 'Andrew Luchuk'
 # The full version, including alpha/beta/rc tags
 version = ''
 with open('../blinkter/__init__.py', 'r') as f:
-    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read()).group(1)
+    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
 release = version
 
 master_doc = 'index'
