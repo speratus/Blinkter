@@ -21,13 +21,20 @@
 #  SOFTWARE.
 
 from setuptools import setup, find_packages
+import re
+
+def get_property(prop: str, project: str):
+    with open(project + '/__init__.py', 'r') as f:
+        return re.search(r'{}\s*=\s*[\'"]([\'"]*)[\'"]'.format(prop), f.read()).group(1)
 
 with open('README.md', 'r') as fh:
     long_description = fh.read()
 
+project_name = 'blinkter'
+
 setup(
-    name='blinkter',
-    version='0.1.5.6',
+    name=project_name,
+    version=get_property('__version__', project_name),
     packages=find_packages(),
     install_requires=['blinkt >= 0.1.2'],
     author='Andrew Luchuk',

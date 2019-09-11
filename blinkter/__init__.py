@@ -27,6 +27,12 @@ name = 'blinkter'
 #import .led as led
 #import .threads as threads
 
+__title__ = 'blinkter'
+__author__ = 'speratus'
+__license__ = 'MIT'
+__copyright__ = 'Copyright (C) 2019 speratus'
+__version__ = '1.0.0-rc1'
+
 from .board import *
 from .pixel import *
 from .led import *

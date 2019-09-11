@@ -13,6 +13,7 @@ import sys
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import re
 # import sys
 sys.path.insert(0, os.path.abspath('..'))
 
@@ -24,7 +25,10 @@ copyright = '2019, Andrew Luchuk'
 author = 'Andrew Luchuk'
 
 # The full version, including alpha/beta/rc tags
-release = '0.1.5.6'
+version = ''
+with open('../blinkter/__init__.py', 'r') as f:
+    version = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read()).group(1)
+release = version
 
 master_doc = 'index'
 autodoc_mock_imports = ['blinkt']
