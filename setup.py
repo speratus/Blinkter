@@ -23,9 +23,12 @@
 from setuptools import setup, find_packages
 import re
 
-def get_property(prop: str, project: str):
+
+def get_property(prop, project):
     with open(project + '/__init__.py', 'r') as f:
-        return re.search(r'{}\s*=\s*[\'"]([\'"]*)[\'"]'.format(prop), f.read()).group(1)
+        r = re.search(r'^{}\s*=\s*[\'"]([^\'"]*)[\'"]'.format(prop), f.read(), re.MULTILINE)
+        o = r.group(1)
+        return o
 
 with open('README.md', 'r') as fh:
     long_description = fh.read()
