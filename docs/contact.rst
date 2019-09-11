@@ -12,4 +12,4 @@ Gitter has integrations for Github, Bitbucket, and Gitlab, so you should be able
 have a Discord account.
 
 **IMPORTANT:** by contacting joining the Discord or Gitter or contributing to the codebase via Github, you agree to
-abide by the :ref:`community-covenant`.
+abide by the :doc:`covenant`.

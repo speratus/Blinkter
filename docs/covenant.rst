@@ -1,4 +1,3 @@
-.. _community-covenant:
 Blinkter Community Covenant
 ===========================
 **IMPORTANT:** by joining the Discord or Gitter community or contributing to the codebase via Github, you agree to abide
