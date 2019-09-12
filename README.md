@@ -67,7 +67,7 @@ pixel.red() #Or pixel.blue(), or whatever else you want.
 
 # Contact
 
-You can ask questions on the 
+You can ask questions on the [Discord Server](https://discord.gg/YqRfXwJ) or the [Gitter chat room](https://gitter.im/raspberrypi-blinkter/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link).
 
 # Links
 * [Pimoroni Blinkt! product page](https://shop.pimoroni.com/products/blinkt)
