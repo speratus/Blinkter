@@ -61,9 +61,12 @@ Contents
 .. toctree::
    :maxdepth: 2
 
-   classes/BlinktBoard
-   classes/Pixel
-   classes/LED
+   api
+   contact
+   version
+   issues
+
+
 
 
 

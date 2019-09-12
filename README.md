@@ -7,6 +7,8 @@
 [![GitHub issues](https://img.shields.io/github/issues/speratus/Blinkter.svg)](https://github.com/speratus/Blinkter/issues)
 [![GitHub forks](https://img.shields.io/github/forks/speratus/Blinkter.svg)](https://github.com/speratus/Blinkter/network)
 
+[![Gitter](https://badges.gitter.im/raspberrypi-blinkter/community.svg)](https://gitter.im/raspberrypi-blinkter/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Discord](https://img.shields.io/discord/610943654806159453)](https://discord.gg/YqRfXwJ)
 
 Blinkter makes using the [Pimoroni Blinkt!](https://shop.pimoroni.com/products/blinkt) even  easier by making the library object oriented and 
 adding several convenience methods. The intuitive objects that Blinkter layers on top of the [Blinkt!](https://github.com/pimoroni/blinkt)
@@ -62,6 +64,11 @@ board = blinkter.BlinktBoard()
 pixel = board.get_pixel(0)  #Or whatever pixel you want to manipulate
 pixel.red() #Or pixel.blue(), or whatever else you want.
 ```
+
+# Contact
+
+You can ask questions on the 
+
 # Links
 * [Pimoroni Blinkt! product page](https://shop.pimoroni.com/products/blinkt)
 * [Blinkt library](https://github.com/pimoroni/blinkt)
