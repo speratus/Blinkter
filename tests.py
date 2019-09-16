@@ -31,10 +31,10 @@ sys.modules['blinkt'] = mock.MagicMock()
 from blinkter import BlinktBoard, Pixel, LED
 
 
-class BasicPixelTests(unittest.TestCase):
-    def SetUp(self):
-        self.board = BlinktBoard()
-        self.pixel = self.board.get_pixel(0)
+# class BasicPixelTests(unittest.TestCase):
+#     def SetUp(self):
+#         self.board = BlinktBoard()
+#         self.pixel = self.board.get_pixel(0)
 
 #    @mock.patch.object(threading.Lock, 'acquire', autospec=True)
 #    @mock.patch.object(threading.Lock, 'release', autospec=True)
@@ -92,6 +92,49 @@ class ColorSettingTests(unittest.TestCase):
         mock_draw.assert_called()
         blue = [0, 0, 255]
         self.assertEqual(self.pixel.rgb, blue, msg=f'pixel.red() failed. {self.pixel.rgb} does not equal {blue}.')
+
+
+class IncrementTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.board = BlinktBoard()
+        self.pixel = self.board.get_pixel(0)
+        self.pixel.black()
+        self.cases = [
+            (10, 10),
+            (30, 40),
+            (70, 110),
+            # NOTE: The following test case revealed that pixel.increment() behaved in an unexpected way when exceeding
+            #       the 255 value limit. Originally, trying to increment beyond the acceptable limit caused it to wrap
+            #       around to zero, but for normalization purposes, I have changed that behavior. This change needs to
+            #       be noted in the changelog.
+            #       At some point in the future, I think it would be good to add the wrap around functionality back into
+            #       the increment code, but it needs to be done using a parameter, and it should not wrap around by
+            #       default.
+            (255, 255),
+            (-130, 125),
+            (75, 200),
+            (15, 215),
+            (-400, 0),
+            (9010, 255),
+            (-230, 25),
+            (100, 125),
+            (-45, 80),
+            (90, 170),
+            (0, 180),
+            (0, 190),
+            (0, 200)
+        ]
+
+    def test_correct_pixel(self):
+        self.assertEqual(self.pixel.addr, 0, msg='The pixel in IncrementTests was not set correctly.')
+
+    @mock.patch.object(Pixel, 'draw', autospec=True)
+    def test_increments(self, mock_draw):
+        for c in self.cases:
+            self.pixel.increment(LED.RED, amount=c[0])
+            mock_draw.assert_called()
+            self.assertEqual(self.pixel.rgb[0], c[1], msg=f'pixel.increment(LED.RED, amount={c[0]}) failed.')
+
 
 if __name__ == '__main__':
     unittest.main()
