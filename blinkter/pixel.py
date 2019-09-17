@@ -152,7 +152,7 @@ class Pixel:
         self._keep_color()
         
         a = amount if amount is not 0 else self.increment_amount
-        print(f'using value {a}')
+        #print(f'using value {a}')
         c = self.rgb[led.value]
         if c+a > 255:
             c = 255
@@ -181,13 +181,13 @@ class Pixel:
         self._keep_color()
 
         a = amount if amount is not 0 else self.increment_amount
-        print(f'using value {a}')
+        #print(f'using value {a}')
         c = self.rgb[led.value]
         if c-a < 0:
-            c = 255
+            c = 0
             self.rgb[led.value] = c
         elif c-a > 255:
-            c = 0
+            c = 255
             self.rgb[led.value] = c
         else:
             c -= a

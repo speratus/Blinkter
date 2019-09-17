@@ -136,5 +136,101 @@ class IncrementTests(unittest.TestCase):
             self.assertEqual(self.pixel.rgb[0], c[1], msg=f'pixel.increment(LED.RED, amount={c[0]}) failed.')
 
 
+class DecrementTests(unittest.TestCase):
+    def setUp(self):
+        self.board = BlinktBoard()
+        self.pixel = self.board.get_pixel(0)
+        self.cases = (
+            (140, 115),
+            (30, 85),
+            (79, 6),
+            # NOTE: Again, the following test revealed inconsistent wrap around behavior in pixel.decrement like the
+            #       behavior in pixel.increment. I have removed this behavior for the time being and that needs to be
+            #       noted in the changelog.
+            (45, 0),
+            (-50, 50),
+            (-200, 250),
+            (900, 0),
+            (-678, 255),
+            (0, 245),
+            (80, 165),
+            (-30, 195),
+            (100, 95),
+            (-5, 100),
+            (0, 90),
+            (0, 80),
+            (0, 70),
+            (15, 55)
+        )
+
+    def test_correct_pixel(self):
+        self.assertEqual(self.pixel.addr, 0, msg='The pixel was not set correctly.')
+
+    @mock.patch.object(Pixel, 'draw', autospec=True)
+    def test_decrement(self, mock_draw):
+        self.pixel.white()
+        for c in self.cases:
+            self.pixel.decrement(LED.RED, amount=c[0])
+            self.assertEqual(self.pixel.rgb[0], c[1], msg=f'pixel.decrement(LED.RED, amount={c[0]}) failed.')
+            mock_draw.assert_called()
+
+
+class SetTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.board = BlinktBoard()
+        self.pixel = self.board.get_pixel(3)
+        self.led_cases = (
+            (LED.RED, 45, 45),
+            (LED.GREEN, 98, 98),
+            (LED.BLUE, 117, 117),
+            (LED.BLUE, 430, 255),
+            (LED.RED, 87, 87),
+            (LED.GREEN, -125, 0),
+            (LED.RED, 210, 210),
+            (LED.BLUE, -2, 0),
+            (LED.GREEN, 450, 255),
+            (LED.RED, 256, 255),
+            (LED.RED, 130, 130),
+            (LED.GREEN, 73, 73),
+            (LED.GREEN, 0, 0),
+            (LED.GREEN, 255, 255),
+            (LED.RED, 255, 255)
+        )
+        self.rgb_cases = (
+            ((255, 0, 0), [255, 0, 0]),
+            ((255, 255, 0), [255, 255, 0]),
+            ((255, 255, 255), [255, 255, 255]),
+            ((0, 255, 255), [0, 255, 255]),
+            ((0, 0, 255), [0, 0, 255]),
+            ((0, 0, 0), [0, 0, 0]),
+            ((0, 255, 0), [0, 255, 0]),
+            ((13, 45, 78), [13, 45, 78]),
+            ((96, 85, 74), [96, 85, 74]),
+            ((32, 65, 98), [32, 65, 98]),
+            ((500, -456, 0), [255, 0, 0]),
+            ((45, 257, -78), [45, 255, 0]),
+            ((153, 210, 88), [153, 210, 88])
+        )
+
+    def test_correct_pixel(self):
+        self.assertEqual(self.pixel.addr, 3, msg='The pixel was not set properly!')
+
+    @mock.patch.object(Pixel, 'draw', autospec=True)
+    def test_led_cases(self, mock_draw):
+        for c in self.led_cases:
+            self.pixel.set_led(c[0], c[1])
+            self.assertEqual(self.pixel.rgb[c[0].value], c[2], msg=f'pixel.set_led() failed. color: {c[0].name}, value: {c[1]}.')
+            mock_draw.assert_called()
+
+    @mock.patch.object(Pixel, 'draw', autospec=True)
+    def test_set_color(self, mock_draw):
+        for c in self.rgb_cases:
+            i = c[0]
+            t = c[1]
+            self.pixel.set_color(i[0], i[1], i[2])
+            self.assertEqual(self.pixel.rgb, t, msg='pixel.set_color() failed.')
+            mock_draw.assert_called()
+
+
 if __name__ == '__main__':
     unittest.main()
