@@ -29,6 +29,7 @@ import sys
 sys.modules['blinkt'] = mock.MagicMock()
 
 from blinkter import BlinktBoard, Pixel, LED
+from blinkter.threads import FlashThread
 
 
 # class BasicPixelTests(unittest.TestCase):
@@ -230,6 +231,34 @@ class SetTests(unittest.TestCase):
             self.pixel.set_color(i[0], i[1], i[2])
             self.assertEqual(self.pixel.rgb, t, msg='pixel.set_color() failed.')
             mock_draw.assert_called()
+
+
+class FlashTests(unittest.TestCase):
+    def setUp(self):
+        self.board = BlinktBoard()
+        self.pixel = self.board.get_pixel(4)
+        self.cases = (
+            {'r': 0, 'g': 0, 'b': 0, 'length': 0.25},
+            {'r': 35, 'g': 255, 'b': 85, 'length': 0.57},
+            {'r': 255, 'g': 255, 'b': 255, 'length': 2}
+        )
+
+    # NOTE: the following test may (should?) be revised at some point. Currently, all it tests (and all it is intended
+    #       to test is whether everything is called properly. Even so, it could perhaps be organized in a better way.
+    @mock.patch.object(FlashThread, 'start', autospec=True)
+    @mock.patch.object(Pixel, 'set_color', autospec=True)
+    @mock.patch.object(Pixel, 'draw', autospec=True)
+    @mock.patch.object(Pixel, 'revert_color', autospec=True)
+    @mock.patch.object(Pixel, 'black', autospec=True)
+    def test_flash(self, mock_black, mock_revert, mock_draw, mock_set, mock_start):
+        for c in self.cases:
+            self.pixel.flash(r=c['r'], g=c['g'], b=c['b'], length=c['length'])
+
+        self.assertEqual(1, mock_black.call_count, msg=f'pixel.black() was called {mock_black.call_count} times. It should have been called once.')
+        self.assertEqual(len(self.cases), mock_start.call_count, msg=f'thread.start() was called {mock_start.call_count} times. It should have been called {len(self.cases)} times.')
+        self.assertEqual(1, mock_revert.call_count, msg=f'pixel.revert_color() was called {mock_revert.call_count} times. It should have been called once.')
+        self.assertEqual(2, mock_set.call_count, msg=f'pixel.set_color() was called {mock_set.call_count} times. It should have been called twice.')
+        self.assertEqual(1, mock_draw.call_count, msg=f'pixel.draw() was called {mock_draw.call_count} times. It should have been called 11 times.')
 
 
 if __name__ == '__main__':
