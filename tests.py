@@ -29,7 +29,7 @@ import sys
 sys.modules['blinkt'] = mock.MagicMock()
 
 from blinkter import BlinktBoard, Pixel, LED
-from blinkter.threads import FlashThread
+from blinkter.threads import FlashThread, BlinkThread
 
 
 # class BasicPixelTests(unittest.TestCase):
@@ -259,6 +259,35 @@ class FlashTests(unittest.TestCase):
         self.assertEqual(1, mock_revert.call_count, msg=f'pixel.revert_color() was called {mock_revert.call_count} times. It should have been called once.')
         self.assertEqual(2, mock_set.call_count, msg=f'pixel.set_color() was called {mock_set.call_count} times. It should have been called twice.')
         self.assertEqual(1, mock_draw.call_count, msg=f'pixel.draw() was called {mock_draw.call_count} times. It should have been called 11 times.')
+
+
+class BlinkTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.board = BlinktBoard()
+        self.pixel = self.board.get_pixel(5)
+        self.cases = (
+            {'r': 0, 'g': 0, 'b': 0, 'interval': 0.1, 'duration': 4},
+            {'r': 46, 'g': 89, 'b': 57, 'interval': 0.01, 'duration': 1},
+            {'r': 255, 'g': 255, 'b': 255, 'interval': 0.25, 'duration': 3},
+            {'r': 0, 'g': 0, 'b': 0, 'interval': 0.1, 'duration': 10}
+        )
+
+    # @mock.patch.object(BlinkThread, '__init__', autospec=True)
+    @mock.patch.object(BlinkThread, 'start', autospec=True)
+    @mock.patch.object(Pixel, 'draw', autospec=True)
+    @mock.patch.object(Pixel, 'set_color', autospec=True)
+    @mock.patch.object(Pixel, 'black', autospec=True)
+    @mock.patch.object(Pixel, 'revert_color', autospec=True)
+    def test_blink(self, mock_revert, mock_black, mock_set, mock_draw, mock_start):  # , mock_init):
+        for c in self.cases:
+            self.pixel.blink(r=c['r'], g=c['g'], b=c['b'], interval=c['interval'], duration=c['duration'])
+            #mock_init.assert_called_with(c['interval'], c['duration'])
+
+        self.assertEqual(2, mock_revert.call_count, msg=f'pixel.revert_color() was called {mock_revert.call_count} times. It should have been called twice')
+        self.assertEqual(2, mock_black.call_count, msg=f'pixel.black() was called {mock_black.call_count} times. It should have been called twice.')
+        self.assertEqual(2, mock_set.call_count, msg=f'pixel.set_color() was called {mock_set.call_count} times. It should have been called twice.')
+        self.assertEqual(2, mock_draw.call_count, msg=f'pixel.draw() was called {mock_draw.call_count} times. It should have been called twice.')
+        self.assertEqual(len(self.cases), mock_start.call_count, msg=f'thread.start() was called {mock_start.call_count} times. It should have been called {len(self.cases)} times.')
 
 
 if __name__ == '__main__':
