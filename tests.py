@@ -29,7 +29,7 @@ import sys
 sys.modules['blinkt'] = mock.MagicMock()
 
 from blinkter import BlinktBoard, Pixel, LED
-from blinkter.threads import FlashThread, BlinkThread
+from blinkter.threads import FlashThread, BlinkThread, AdvancedBlinkThread
 
 
 # class BasicPixelTests(unittest.TestCase):
@@ -288,6 +288,33 @@ class BlinkTests(unittest.TestCase):
         self.assertEqual(2, mock_set.call_count, msg=f'pixel.set_color() was called {mock_set.call_count} times. It should have been called twice.')
         self.assertEqual(2, mock_draw.call_count, msg=f'pixel.draw() was called {mock_draw.call_count} times. It should have been called twice.')
         self.assertEqual(len(self.cases), mock_start.call_count, msg=f'thread.start() was called {mock_start.call_count} times. It should have been called {len(self.cases)} times.')
+
+
+class AdvancedBlinkTests(unittest.TestCase):
+    def setUp(self):
+        self.board = BlinktBoard()
+        with mock.patch('blinkter.threads.AdvancedBlinkThread', autospec=True):
+            self.pixel = self.board.get_pixel(1)
+        self.cases = (
+            {'r': 0, 'g': 0, 'b': 0, 'on_length': 0.05, 'off_length': 0.1},
+            {'r': 45, 'g': 59, 'b': 200, 'on_length': 0.1, 'off_length': 0.05},
+            {'r': 255, 'g': 87, 'b': 255, 'on_length': 0.006, 'off_length': 1},
+            {'r': 255, 'g': 255, 'b': 255, 'on_length': 1, 'off_length': 0.2},
+            {'r': 0, 'g': 0, 'b': 0, 'on_length': 0.01, 'off_length': 0.01}
+        )
+
+    @mock.patch.object(Pixel, 'black', autospec=True)
+    @mock.patch.object(Pixel, 'revert_color', autospec=True)
+    @mock.patch.object(AdvancedBlinkThread, 'start', autospec=True)
+    @mock.patch.object(Pixel, 'set_color', autospec=True)
+    def test_advanced_blink(self, mock_set, mock_start, mock_revert, mock_black):
+        for c in self.cases:
+            self.pixel.start_blink(r=c['r'], g=c['g'], b=c['b'], on_length=c['on_length'], off_length=c['off_length'])
+
+        self.assertEqual(3, mock_set.call_count, msg=f'pixel.set_color() was not called the correct number of times.')
+        self.assertEqual(2, mock_revert.call_count, msg=f'pixel.revert_color() was not called the correct number of times.')
+        self.assertEqual(2, mock_black.call_count, msg=f'pixel.black() was not called the correct number of times.')
+        self.assertEqual(len(self.cases), mock_start.call_count, msg=f'AdvancedBlinkThread.start() was not called {len(self.cases)} times.')
 
 
 if __name__ == '__main__':
