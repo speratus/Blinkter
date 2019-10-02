@@ -3,4 +3,4 @@ python:
 #  - "3.5"
   - "3.7"
 install: pip3 list
-script: python3 -m unittest discover
+script: python3 tests.py
