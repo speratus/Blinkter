@@ -4,7 +4,7 @@
 [![GitHub release](https://img.shields.io/github/release/speratus/Blinkter.svg)](https://github.com/speratus/Blinkter/releases/tag/0.1.5.4)
 [![PyPI](https://img.shields.io/pypi/v/blinkter.svg?color=green)](https://pypi.org/project/blinkter/)
 [![GitHub license](https://img.shields.io/github/license/speratus/Blinkter.svg)](https://github.com/speratus/Blinkter/blob/master/LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/speratus/Blinkter.svg)](https://github.com/speratus/Blinkter/issues)
+[![codecov](https://codecov.io/gh/speratus/Blinkter/branch/master/graph/badge.svg)](https://codecov.io/gh/speratus/Blinkter)
 [![Build Status](https://travis-ci.org/speratus/Blinkter.svg?branch=master)](https://travis-ci.org/speratus/Blinkter)
 
 [![Gitter](https://badges.gitter.im/raspberrypi-blinkter/community.svg)](https://gitter.im/raspberrypi-blinkter/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
