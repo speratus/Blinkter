@@ -2,5 +2,6 @@ language: python
 python:
 #  - "3.5"
   - "3.7"
-install: pip3 list
+install: pip install codecov
 script: python3 tests.py
+after_success: codecov
