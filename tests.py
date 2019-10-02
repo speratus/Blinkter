@@ -317,6 +317,13 @@ class AdvancedBlinkTests(unittest.TestCase):
         self.assertEqual(2, mock_black.call_count, msg=f'pixel.black() was not called the correct number of times.')
         self.assertEqual(len(self.cases), mock_start.call_count, msg=f'AdvancedBlinkThread.start() was not called {len(self.cases)} times.')
 
+    @mock.patch.object(Pixel, 'black', autospec=True)
+    @mock.patch.object(AdvancedBlinkThread, 'stop', autospec=True)
+    def test_stop_blink(self, mock_stop, mock_black):
+        self.pixel.stop_blink()
+        mock_stop.assert_called()
+        mock_black.assert_called()
+
 
 if __name__ == '__main__':
     unittest.main()
