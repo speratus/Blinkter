@@ -27,6 +27,7 @@ from unittest import mock
 #import blinkt
 import sys
 sys.modules['blinkt'] = mock.MagicMock()
+import blinkt
 
 from blinkter import BlinktBoard, Pixel, LED
 from blinkter.threads import FlashThread, BlinkThread, AdvancedBlinkThread
