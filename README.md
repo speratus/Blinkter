@@ -65,7 +65,7 @@ pixel = board.get_pixel(0)  #Or whatever pixel you want to manipulate
 pixel.red() #Or pixel.blue(), or whatever else you want.
 ```
 
-# Contact
+# Discussion
 
 You can ask questions on the [Discord Server](https://discord.gg/YqRfXwJ) or the [Gitter chat room](https://gitter.im/raspberrypi-blinkter/community?utm_source=share-link&utm_medium=link&utm_campaign=share-link).
 
