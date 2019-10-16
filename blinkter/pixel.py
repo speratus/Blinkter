@@ -73,12 +73,6 @@ class Pixel:
         self.orgb[LED.GREEN.value] = self.rgb[LED.GREEN.value]
         self.orgb[LED.BLUE.value] = self.rgb[LED.BLUE.value]
 
-    def _revert_color(self):
-##        self._keep_color()
-        self.rgb[LED.RED.value] = self.orgb[LED.RED.value]
-        self.rgb[LED.GREEN.value] = self.orgb[LED.GREEN.value]
-        self.rgb[LED.BLUE.value] = self.orgb[LED.BLUE.value]
-
     def revert_color(self):
         """
         Resets this pixel's color to the most recently used color.
