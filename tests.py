@@ -234,6 +234,35 @@ class SetTests(unittest.TestCase):
             mock_draw.assert_called()
 
 
+class RevertTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.board = BlinktBoard()
+        self.pixel = self.board.get_pixel(2)
+        self.cases = (
+            {'rgb': [255, 255, 255], 'orgb': [0, 0, 0]},
+            {'rgb': [127, 127, 127], 'orgb': [255, 255, 255]},
+            {'rgb': [0, 140, 233], 'orgb': [45, 90, 23]},
+            {'rgb': [75, 125, 456], 'orgb': [-45, 34, 190]},
+            {'rgb': [85, 65, 75], 'orgb': [39, 37, 35]}
+        )
+
+    @mock.patch.object(Pixel, 'draw', autospec=True)
+    def test_revert_color(self, mock_draw):
+        for c in self.cases:
+            self.pixel.rgb[LED.RED.value] = c['rgb'][LED.RED.value]
+            self.pixel.rgb[LED.GREEN.value] = c['rgb'][LED.GREEN.value]
+            self.pixel.rgb[LED.BLUE.value] = c['rgb'][LED.BLUE.value]
+
+            self.pixel.orgb[LED.RED.value] = c['orgb'][LED.RED.value]
+            self.pixel.orgb[LED.GREEN.value] = c['orgb'][LED.GREEN.value]
+            self.pixel.orgb[LED.BLUE.value] = c['orgb'][LED.BLUE.value]
+
+            self.pixel.revert_color()
+
+            self.assertEqual(c['orgb'], self.pixel.rgb, msg=f'self.pixel.rgb should be {c["orgb"]}, it is {self.pixel.rgb}')
+            self.assertEqual(c['rgb'], self.pixel.orgb, msg=f'self.pixel.orgb should be {c["rgb"]}, it is {self.pixel.orgb}')
+
+
 class FlashTests(unittest.TestCase):
     def setUp(self):
         self.board = BlinktBoard()
