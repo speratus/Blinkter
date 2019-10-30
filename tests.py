@@ -325,5 +325,19 @@ class AdvancedBlinkTests(unittest.TestCase):
         mock_black.assert_called()
 
 
+class BlinktBoardTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.board = BlinktBoard()
+
+    #@mock.patch.object(threading.Lock, 'acquire', autospec=True)
+    @mock.patch('blinkt.clear', autospec=True)
+    @mock.patch('blinkt.show', autospec=True)
+    def test_black_all(self, mock_show, mock_clear):
+        self.board.black_all()
+        mock_show.assert_called()
+        mock_clear.assert_called()
+        #mock_acquire.assert_called()
+
+
 if __name__ == '__main__':
     unittest.main()
