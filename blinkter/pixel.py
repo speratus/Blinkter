@@ -255,6 +255,9 @@ class Pixel:
         Increments the overall brightness of this pixel by the specified amount.
         Similar to the :func:`increment` method, this method increases the brightness of the whole pixel by a specified scale
         factor.
+
+        **WARNING**: This method in its current state is essentially useless because it has no effect on pixel brightness.
+        In the future, it will be functional, but more work needs to be done before it reaches that point.
         
         Parameters
         ------------------
