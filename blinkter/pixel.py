@@ -161,7 +161,7 @@ class Pixel:
 ##        self.rgb[led] = c
         self.draw()
 
-    def decrement(self, led: LED, amount=0):
+    def decrement(self, led: LED, amount=0, wrap_around=False):
         """
         Decreases the brightness of the specified LED by the specified amount.
         
@@ -176,13 +176,17 @@ class Pixel:
         self._keep_color()
 
         a = amount if amount is not 0 else self.increment_amount
+
+        too_lo = 255 if wrap_around is True else 0
+        too_hi = 0 if wrap_around is True else 255
+
         #print(f'using value {a}')
         c = self.rgb[led.value]
         if c-a < 0:
-            c = 0
+            c = too_lo
             self.rgb[led.value] = c
         elif c-a > 255:
-            c = 255
+            c = too_hi
             self.rgb[led.value] = c
         else:
             c -= a
