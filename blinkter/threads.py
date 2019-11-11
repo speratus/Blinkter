@@ -21,7 +21,7 @@
 #  SOFTWARE.
 
 from copy import deepcopy
-from blinkter import Pixel
+from blinkter.pixel import Pixel
 
 import threading
 import time
