@@ -20,10 +20,14 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
+from copy import deepcopy
+from blinkter import Pixel
+
 import threading
 import time
 
 ##from .pixel import Pixel
+
 
 class FlashThread(threading.Thread):
     
@@ -37,9 +41,10 @@ class FlashThread(threading.Thread):
         self.pixel.revert_color()
         self.pixel.draw()
 
+
 class BlinkThread(threading.Thread):
 
-    def __init__(self, pixel, interval: float, duration: float):
+    def __init__(self, pixel: Pixel, interval: float, duration: float):
         super().__init__()
         self.pixel = pixel
         self.interval = interval
@@ -51,6 +56,7 @@ class BlinkThread(threading.Thread):
 
     def run(self):
         elapsed_time = 0.0
+        first_color = deepcopy(self.pixel.orgb)
         while self.running:
             s_time = time.process_time()
             
@@ -70,6 +76,9 @@ class BlinkThread(threading.Thread):
                 self.pixel.revert_color()
                 break
 
+        self.pixel.set_color(first_color[0], first_color[1], first_color[2])
+
+
 class AdvancedBlinkThread(threading.Thread):
     def __init__(self, pixel, on_length: float, off_length: float):
         super().__init__()
@@ -82,6 +91,7 @@ class AdvancedBlinkThread(threading.Thread):
         self.running = False
 
     def run(self):
+        first_color = deepcopy(self.pixel.orgb)
         while self.running:
             time.sleep(self.on_time)
 
@@ -90,3 +100,5 @@ class AdvancedBlinkThread(threading.Thread):
             time.sleep(self.off_time)
 
             self.pixel.revert_color()
+
+        self.pixel.set_color(first_color[0], first_color[1], first_color[2])
