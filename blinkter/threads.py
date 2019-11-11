@@ -21,10 +21,11 @@
 #  SOFTWARE.
 
 from copy import deepcopy
-from blinkter.pixel import Pixel
+# from blinkter.pixel import Pixel
 
 import threading
 import time
+#import blinkter.pixel
 
 ##from .pixel import Pixel
 
@@ -44,7 +45,7 @@ class FlashThread(threading.Thread):
 
 class BlinkThread(threading.Thread):
 
-    def __init__(self, pixel: Pixel, interval: float, duration: float):
+    def __init__(self, pixel, interval: float, duration: float):
         super().__init__()
         self.pixel = pixel
         self.interval = interval
