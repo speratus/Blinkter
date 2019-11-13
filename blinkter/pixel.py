@@ -203,7 +203,7 @@ class Pixel:
         """
         Sets the color of this pixel to the values specified.
         
-        The accebtable range for all of these parameters is between 0 and 255 inclusive.
+        The acceptable range for all of these parameters is between 0 and 255 inclusive.
         
         Paramters
         ----------------
