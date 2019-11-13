@@ -205,7 +205,7 @@ class Pixel:
         
         The acceptable range for all of these parameters is between 0 and 255 inclusive.
         
-        Paramters
+        Parameters
         ----------------
         :param r: int
             Specifies the brightness to which the red LED should be set.
@@ -241,9 +241,6 @@ class Pixel:
         Increments the overall brightness of this pixel by the specified amount.
         Similar to the :func:`increment` method, this method increases the brightness of the whole pixel by a specified
         scale factor.
-
-        **WARNING**: This method in its current state is essentially useless because it has no effect on pixel
-        brightness. In the future, it will be functional, but more work needs to be done before it reaches that point.
         
         Parameters
         ------------------
@@ -364,8 +361,20 @@ class Pixel:
             
         :param duration: Optional[float]
             The length of time in seconds during which this blink sequence will run.
+
+        :param brightness: Optional[float]
+            Sets the overall brightness of the pixel when blinking.
+
+            NOTE: If you set the brightness of the pixel using this option, the brightness set by this argument will
+                remain even after the pixel has finished blinking.
+
+            **WARNING**: This option does nothing in versions prior to version 1.0.0.
         """
         thread = BlinkThread(self, interval, duration)
+
+        if 0 <= brightness <= 1.0 and brightness != self.brightness:
+            self.brightness = brightness
+
         if r == 0 and g == 0 and b == 0:
             self.black()
             self.revert_color()
@@ -396,7 +405,10 @@ class Pixel:
         :param brightness: Optional[int]
             The overall brightness of the whole pixel during this blink sequence.
             
-            NOTE: this parameter is not supported. Including it as an argument will not change any of the pixel's behavior.
+            NOTE: Setting the brightness using this argument will carry over to the brightness that the pixel uses once
+                it is finished blinking.
+
+            **WARNING**: This option does nothing in versions prior to 1.0.0.
             
         :param on_length: Optional[float]
             The length of time in seconds that the pixel will be on for each flash.
@@ -405,6 +417,9 @@ class Pixel:
             The length of time in seconds that the pixel will be off between flashes.
         """
         thread = AdvancedBlinkThread(self, on_length, off_length)
+        if 0 <= brightness <= 1.0 and brightness != self.brightness:
+            self.brightness = brightness
+
         if r == 0 and g == 0 and b == 0:
             self.black()
             self.revert_color()
