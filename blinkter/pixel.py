@@ -20,16 +20,12 @@
 #  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 #  SOFTWARE.
 
-import asyncio
 import blinkt
-import threading
 
-##import .board
-
-#from copy import deepcopy
 
 from .led import LED
 from .threads import FlashThread, BlinkThread, AdvancedBlinkThread
+
 
 class Pixel:
     """
@@ -53,20 +49,12 @@ class Pixel:
         self.board = board
         self.addr = addr
         self.brightness = 0.1
-##        self.r = 0
-##        self.g = 0
-##        self.b = 0
+
         self.orgb = [0, 0, 0]
         self.rgb = [0, 0, 0]
         self.increment_amount = 10
         self.bi = 0.1
         self.blinking_thread = None
-
-##    async def blinkt_go(self):
-##        blinkt.set_pixel(self.addr, self.rgb[LED.RED], self.rgb[LED.GREEN], self.rgb[LED.BLUE], brightness=self.brightness)
-##        #blinkt.set_brightness(self.brightness)
-##        blinkt.show()
-##        print('called from the second thread and event loop')
 
     def _keep_color(self):
         self.orgb[LED.RED.value] = self.rgb[LED.RED.value]
@@ -87,7 +75,6 @@ class Pixel:
         self.rgb[LED.BLUE.value] = b
         
         self.draw()
-        
 
     def black(self):
         """
@@ -98,7 +85,7 @@ class Pixel:
         self.rgb[LED.RED.value] = 0
         self.rgb[LED.GREEN.value] = 0
         self.rgb[LED.BLUE.value] = 0
-##        blinkt.set_pixel(self.addr, self.r, self.g, self.b)
+
         self.draw()
 
     def white(self):
@@ -119,16 +106,11 @@ class Pixel:
         
         Under normal circumstances, users should not have to call this method.
         """
-##        p = deepcopy(self)
-##        board.thread.draw_pixel(p)
-##        print('drew the pixel. If nothing shows, uncomment lines 45 and 55.')
-##        l = threading.Lock()
 
         self.board.lock.acquire(blocking=True, timeout=1)
         blinkt.set_pixel(self.addr, self.rgb[LED.RED.value], self.rgb[LED.GREEN.value], self.rgb[LED.BLUE.value], brightness=self.brightness)
         blinkt.show()
         self.board.lock.release()
-##        print('drew the pixel. If nothing shows, then there is an error somewhere.')
 
     def increment(self, led: LED, amount=0, wrap_around=False):
         """
@@ -147,7 +129,7 @@ class Pixel:
         too_lo = 255 if wrap_around is True else 0
         
         a = amount if amount is not 0 else self.increment_amount
-        #print(f'using value {a}')
+
         c = self.rgb[led.value]
         if c+a > 255:
             c = too_hi
@@ -158,7 +140,7 @@ class Pixel:
         else:
             c += a
             self.rgb[led.value] = c
-##        self.rgb[led] = c
+
         self.draw()
 
     def decrement(self, led: LED, amount=0, wrap_around=False):
@@ -180,7 +162,6 @@ class Pixel:
         too_lo = 255 if wrap_around is True else 0
         too_hi = 0 if wrap_around is True else 255
 
-        #print(f'using value {a}')
         c = self.rgb[led.value]
         if c-a < 0:
             c = too_lo
@@ -191,7 +172,7 @@ class Pixel:
         else:
             c -= a
             self.rgb[led.value] = c
-##        self.rgb[led] = c
+
         self.draw()
 
     def set_led(self, led: LED, value: int):
@@ -258,11 +239,11 @@ class Pixel:
     def increment_brightness(self, amount=0.0):
         """
         Increments the overall brightness of this pixel by the specified amount.
-        Similar to the :func:`increment` method, this method increases the brightness of the whole pixel by a specified scale
-        factor.
+        Similar to the :func:`increment` method, this method increases the brightness of the whole pixel by a specified
+        scale factor.
 
-        **WARNING**: This method in its current state is essentially useless because it has no effect on pixel brightness.
-        In the future, it will be functional, but more work needs to be done before it reaches that point.
+        **WARNING**: This method in its current state is essentially useless because it has no effect on pixel
+        brightness. In the future, it will be functional, but more work needs to be done before it reaches that point.
         
         Parameters
         ------------------
@@ -313,7 +294,8 @@ class Pixel:
         """
         Causes this pixel to flash once.
         
-        If all of the color parameters (``r``, ``g``, and ``b``) Are zero, then sets this pixel to black and flashes the color that the pixel had been prior to calling this method.
+        If all of the color parameters (``r``, ``g``, and ``b``) Are zero, then sets this pixel to black and flashes the
+        color that the pixel had been prior to calling this method.
         
         The values of the color parameters must be between ``0`` and ``255``.
         
@@ -347,10 +329,12 @@ class Pixel:
         """
         Flashes this pixel repeatedly for the duration specified.
         
-        This method does not allow users to specify the ratio for which the pixel should be on to the time which it should be
-        off. For this reason, using this method is not recommended. For more advanced blinking options, see :meth:`start_blink` and :meth:`stop_blink`.
+        This method does not allow users to specify the ratio for which the pixel should be on to the time which it
+        should be off. For this reason, using this method is not recommended. For more advanced blinking options, see
+        :meth:`start_blink` and :meth:`stop_blink`.
         
-        Like :meth:`flash`, if no color parameters are specified, this method will flash between black and the current color.
+        Like :meth:`flash`, if no color parameters are specified, this method will flash between black and the current
+        color.
         
         Parameters
         ------------------
@@ -372,9 +356,11 @@ class Pixel:
             
             NOTE: When the pixel is in an "off" state, it is not necessarily black. It is only not the specified color.
             
-            The interval for both "on" and "off" states is equal. I.E., the time spent "on" will always equal the time spent "off".
+            The interval for both "on" and "off" states is equal. I.E., the time spent "on" will always equal the time
+            spent "off".
             
-            If this behavior is not ideal, see the methods :meth:`start_blink` and :meth:`stop_blink` for more advanced behavior.
+            If this behavior is not ideal, see the methods :meth:`start_blink` and :meth:`stop_blink` for more advanced
+            behavior.
             
         :param duration: Optional[float]
             The length of time in seconds during which this blink sequence will run.
@@ -393,7 +379,8 @@ class Pixel:
         """
         Starts a blink sequence. This sequence will not terminate until :meth:`stop_blink` is called.
         
-        Unlike :meth:`blink`, this method allows the user to specify the time which the pixel will be on and off separately.
+        Unlike :meth:`blink`, this method allows the user to specify the time which the pixel will be on and off
+        separately.
         
         Parameters
         ------------------
