@@ -40,7 +40,6 @@ class FlashThread(threading.Thread):
     def run(self):
         time.sleep(self.length)
         self.pixel.revert_color()
-        self.pixel.draw()
 
 
 class BlinkThread(threading.Thread):
