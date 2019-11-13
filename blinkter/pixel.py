@@ -366,7 +366,7 @@ class Pixel:
             Sets the overall brightness of the pixel when blinking.
 
             NOTE: If you set the brightness of the pixel using this option, the brightness set by this argument will
-                remain even after the pixel has finished blinking.
+            remain even after the pixel has finished blinking.
 
             **WARNING**: This option does nothing in versions prior to version 1.0.0.
         """
@@ -406,7 +406,7 @@ class Pixel:
             The overall brightness of the whole pixel during this blink sequence.
             
             NOTE: Setting the brightness using this argument will carry over to the brightness that the pixel uses once
-                it is finished blinking.
+            it is finished blinking.
 
             **WARNING**: This option does nothing in versions prior to 1.0.0.
             
