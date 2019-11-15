@@ -55,6 +55,8 @@ class Pixel:
         self.increment_amount = 10
         self.bi = 0.1
         self.blinking_thread = None
+        self.save_brightness = True
+        self.ob = 0.1
 
     def _keep_color(self):
         self.orgb[LED.RED.value] = self.rgb[LED.RED.value]
