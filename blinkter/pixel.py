@@ -58,10 +58,20 @@ class Pixel:
         self.save_brightness = True
         self.ob = 0.1
 
+    def _keep_brightness(self):
+        if self.save_brightness:
+            self.ob = self.brightness
+
+    def _revert_brightness(self):
+        if self.save_brightness:
+            self.brightness = self.ob
+
     def _keep_color(self):
         self.orgb[LED.RED.value] = self.rgb[LED.RED.value]
         self.orgb[LED.GREEN.value] = self.rgb[LED.GREEN.value]
         self.orgb[LED.BLUE.value] = self.rgb[LED.BLUE.value]
+
+        self._keep_brightness()
 
     def revert_color(self):
         """
@@ -75,6 +85,8 @@ class Pixel:
         self.rgb[LED.RED.value] = r
         self.rgb[LED.GREEN.value] = g
         self.rgb[LED.BLUE.value] = b
+
+        self._revert_brightness()
         
         self.draw()
 
