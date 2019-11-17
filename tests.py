@@ -23,6 +23,7 @@
 import unittest
 import threading
 from unittest import mock
+from copy import deepcopy
 
 #import blinkt
 import sys
@@ -31,6 +32,7 @@ import blinkt
 
 from blinkter import BlinktBoard, Pixel, LED
 from blinkter.threads import FlashThread, BlinkThread, AdvancedBlinkThread
+import blinkter.threads
 
 
 # class BasicPixelTests(unittest.TestCase):
@@ -366,6 +368,40 @@ class BlinktBoardTests(unittest.TestCase):
         mock_show.assert_called()
         mock_clear.assert_called()
         #mock_acquire.assert_called()
+
+
+class BlinkSleepHelper:
+
+    def __init__(self, interval, duration):
+        self.counter = 0
+        self.normalized = duration / interval
+
+    def next(self):
+        self.counter += 1
+        return self.counter
+
+
+class BlinkThreadTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.cases = (
+            (0.01, 2.0),
+            (0.02, 4.0),
+            (0.5, 1.25)
+        )
+        self.pixel = BlinktBoard().get_pixel(0)
+
+    @mock.patch('blinkter.threads.time.sleep', return_value=None)
+    def test_blink(self, mock_sleep):
+        for c in self.cases:
+            helper = BlinkSleepHelper(c[0], c[1])
+            blinkter.threads.time.process_time = helper.next
+
+            self.pixel.red()
+            start_color = deepcopy(self.pixel.orgb)
+            thread = BlinkThread(self.pixel, c[0], helper.normalized)
+            thread.run()
+
+            self.assertEqual(start_color, self.pixel.rgb)
 
 
 if __name__ == '__main__':
