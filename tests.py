@@ -404,5 +404,46 @@ class BlinkThreadTests(unittest.TestCase):
             self.assertEqual(start_color, self.pixel.rgb)
 
 
+class AdvancedBlinkThreadTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.cases = (
+            (10, 0.1, 0.2),
+            (15, 0.3, 0.7),
+            (45, 0.02, 1.0),
+            (300, 0.5, 0.6),
+            (127, 0.1, 0.04),
+            (73, 0.4, 0.09)
+        )
+        self.pixel = BlinktBoard().get_pixel(3)
+
+    def test_advanced_blink(self):
+        class SleepHelper:
+            def __init__(self, blink_count: int, thread: AdvancedBlinkThread):
+                self.call_num = blink_count
+                self.counter = 0
+                self.called_with = []
+                self.thread = thread
+
+            def next(self, time):
+                if time not in self.called_with:
+                    self.called_with.append(time)
+                self.counter += 1
+
+                if self.counter >= self.call_num:
+                    self.thread.stop()
+
+        for c in self.cases:
+            thread = AdvancedBlinkThread(self.pixel, c[1], c[2])
+            helper = SleepHelper(c[0], thread)
+            blinkter.threads.time.sleep = helper.next
+
+            self.pixel.green()
+            start_color = deepcopy(self.pixel.orgb)
+            thread.run()
+
+            self.assertEqual(start_color, self.pixel.rgb)
+            self.assertEqual([c[1], c[2]], helper.called_with)
+
+
 if __name__ == '__main__':
     unittest.main()
