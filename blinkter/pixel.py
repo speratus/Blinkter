@@ -268,7 +268,7 @@ class Pixel:
         a = amount if amount != 0.0 else self.bi
         if self.brightness+a > 1.0:
             self.brightness = 1.0
-        elif self.brightness < 0.0:
+        elif self.brightness+a < 0.0:
             self.brightness = 0
         else:
             self.brightness += a

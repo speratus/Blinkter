@@ -475,7 +475,7 @@ class BrightnessTests(unittest.TestCase):
         for c in self.inc_cases:
             self.pixel.increment_brightness(c[0])
 
-            self.assertEqual(c[1], self.pixel.brightness)
+            self.assertAlmostEqual(self.pixel.brightness, c[1])
 
 
 if __name__ == '__main__':
