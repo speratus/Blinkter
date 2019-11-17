@@ -278,6 +278,12 @@ class Pixel:
     def set_brightness(self, brightness):
         if 0 <= brightness <= 1.0:
             self.brightness = brightness
+        elif brightness >= 1.0:
+            self.brightness = 1
+        else:
+            self.brightness = 0.0
+
+        self.draw()
         
     def red(self):
         """
