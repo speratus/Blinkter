@@ -448,10 +448,10 @@ class AdvancedBlinkThreadTests(unittest.TestCase):
 class BrightnessTests(unittest.TestCase):
     def setUp(self) -> None:
         self.set_cases = (
-            (127, 127),
-            (35, 35),
+            (0.9, 0.9),
+            (35, 1.0),
             (0, 0),
-            (500, 255),
+            (0.03, 0.03),
             (-68, 0)
         )
         self.pixel = BlinktBoard().get_pixel(4)
