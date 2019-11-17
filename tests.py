@@ -445,5 +445,23 @@ class AdvancedBlinkThreadTests(unittest.TestCase):
             self.assertEqual([c[1], c[2]], helper.called_with)
 
 
+class BrightnessTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.set_cases = (
+            (127, 127),
+            (35, 35),
+            (0, 0),
+            (500, 255),
+            (-68, 0)
+        )
+        self.pixel = BlinktBoard().get_pixel(4)
+
+    def test_set(self):
+        for c in self.set_cases:
+            self.pixel.set_brightness(c[0])
+
+            self.assertEqual(c[1], self.pixel.brightness)
+
+
 if __name__ == '__main__':
     unittest.main()
