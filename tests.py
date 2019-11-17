@@ -455,10 +455,25 @@ class BrightnessTests(unittest.TestCase):
             (-68, 0)
         )
         self.pixel = BlinktBoard().get_pixel(4)
+        self.inc_cases = (
+            (0, 0.2),
+            (0.4, 0.6),
+            (0.5, 1.0),
+            (-0.5, 0.5),
+            (-0.7, 0.0),
+            (0, 0.1),
+            (0.5, 0.6)
+        )
 
     def test_set(self):
         for c in self.set_cases:
             self.pixel.set_brightness(c[0])
+
+            self.assertEqual(c[1], self.pixel.brightness)
+
+    def test_inc(self):
+        for c in self.inc_cases:
+            self.pixel.increment_brightness(c[0])
 
             self.assertEqual(c[1], self.pixel.brightness)
 
