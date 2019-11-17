@@ -265,7 +265,7 @@ class Pixel:
             
             If the brightness of the pixel drops below 0.05 the pixel will automatically turn off.
         """
-        a = amount if amount is not 0.0 else self.bi
+        a = amount if amount != 0.0 else self.bi
         if self.brightness+a > 1.0:
             self.brightness = 1.0
         elif self.brightness < 0.0:
