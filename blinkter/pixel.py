@@ -391,7 +391,7 @@ class Pixel:
             
             NOTE: When the pixel is in an "off" state, it is not necessarily black. It is only not the specified color.
             
-            The interval for both "on" and "off" states is equal. I.E., the time spent "on" will always equal the time
+            The interval for both "on" and "off" states is equal. That is, the time spent "on" will always equal the time
             spent "off".
             
             If this behavior is not ideal, see the methods :meth:`start_blink` and :meth:`stop_blink` for more advanced
@@ -446,7 +446,7 @@ class Pixel:
             NOTE: Setting the brightness using this argument will carry over to the brightness that the pixel uses once
             it is finished blinking.
 
-            **WARNING**: This option does nothing in versions prior to 1.0.0.
+            **WARNING**: This option does nothing in versions prior to version 1.0.0.
             
         :param on_length: Optional[float]
             The length of time in seconds that the pixel will be on for each flash.

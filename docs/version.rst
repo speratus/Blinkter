@@ -17,9 +17,9 @@ Changelog
 1.0.0
 ~~~~~~~~
 
-- Removed inconsistent behavior in :meth:`Pixel.increment` and :meth:`Pixel.decrement` when dealing with value overflow.
-- Added ``wrap_around`` parameter to :meth:`Pixel.increment` and :meth:`Pixel.decrement` to allow for previous behavior
-    if desired
+- Removed inconsistent behavior in :meth:`blinkter.Pixel.increment` and :meth:`blinkter.Pixel.decrement` when dealing with value overflow.
+- Added ``wrap_around`` parameter to :meth:`blinkter.Pixel.increment` and :meth:`blinkter.Pixel.decrement` to allow for previous behavior
+  if desired
 - Blinking methods now consistently end on the color they started with
 - Brightness parameters in blinking methods have implementations
 - Added :meth:`Pixel.set_brightess` to precisely control the total brightness of a pixel.
