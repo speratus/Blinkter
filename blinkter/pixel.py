@@ -137,6 +137,11 @@ class Pixel:
         
         :param amount: Optional[int]
             The amount to increase the brightness of the specified LED.
+
+        :param wrap_around: Optional[boolean]
+            Determines whether the pixel will set the color brightness to zero for any value that exceeds 255.
+            The default is ``False``. By default, :meth:`increment` prevents color brightness from being invalid by
+            setting the maximum at 255.
         """
         self._keep_color()
         too_hi = 0 if wrap_around is True else 255
@@ -168,6 +173,10 @@ class Pixel:
             
         :param amount: Optional[int]
             The amount by which the specified LED should decreased.
+
+        :param wrap_around: Optional[boolean]
+            Determines whether to set any values falling below zero to 255. Default is ``False``. Default behavior
+            prevents any value from causing the color brightness to fall below zero.
         """
         self._keep_color()
 
@@ -276,6 +285,11 @@ class Pixel:
         self.draw()
 
     def set_brightness(self, brightness):
+        """
+        Sets the total brightness of the pixel. Valid values are floats between ``0.0`` and ``1.0``.
+
+        :param brightness: The value to which brightness is to be set.
+        """
         if 0 <= brightness <= 1.0:
             self.brightness = brightness
         elif brightness >= 1.0:
